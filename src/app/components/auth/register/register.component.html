@@ -1,53 +1,63 @@
-<div class="container">
-    <div class="input-group mb-3">
-      <span class="input-group-text">
-          <i class="bi bi-person"></i>
-      </span>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Username"
-        aria-label="Username"
-      />
-    </div>
-    
-    <div class="input-group mb-3">
-      <span class="input-group-text">
-          <i class="bi bi-key"></i>
-      </span>
-      <input
-        type="password"
-        class="form-control"
-        placeholder="Password"
-        aria-label="Password"
-      />
-      <button class="btn btn-outline-secondary" type="button" (click)="showPassword">
-          <i class="bi bi-eye"></i>
-      </button>
-    </div>
-    
-    <div class="input-group mb-3">
-      <span class="input-group-text">
-          <i class="bi bi-envelope"></i>
-      </span>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Email"
-        aria-label="Email"
-      />
-    </div>
-  
-    <div class="d-grid gap-2">
-      <button
-          type="button"
-          name="register"
-          id="register"
-          class="btn btn-primary"
-      >
-          Register
-      </button>
-    </div>
-    
+<form class="container" [formGroup]="registerForm" (ngSubmit)="register()">
+  <div class="input-group mb-3">
+    <span class="input-group-text">
+      <i class="bi bi-person"></i>
+    </span>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="*Username"
+      aria-label="Username"
+      formControlName="username"
+      required
+    />
   </div>
-  
+
+  <div class="input-group mb-3">
+    <span class="input-group-text">
+      <i class="bi bi-key"></i>
+    </span>
+    <input
+    [type]="hide ? 'password' : 'text'"
+      class="form-control"
+      placeholder="*Password"
+      aria-label="Password"
+      formControlName="password"
+      required
+    />
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      (click)="(showPassword)"
+    >
+      <i class="bi bi-eye"></i>
+    </button>
+  </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text">
+      <i class="bi bi-envelope"></i>
+    </span>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="*Email"
+      aria-label="Email"
+      formControlName="email"
+      required
+    />
+  </div>
+
+  <div class="d-grid gap-2">
+    <button
+      type="submit"
+      name="register"
+      id="register"
+      class="btn btn-primary"
+      (click)="(register)"
+    >
+      Register
+    </button>
+  </div>
+  <span>Already have an account? <a routerLink="/login">Sign In</a></span>
+</form>
