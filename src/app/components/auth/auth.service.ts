@@ -21,11 +21,11 @@ export class AuthService {
   ) {
     this.apiUrl = `${globals.baseUrl}/auth`;
 
-    this.refreshToken();
+    // this.refreshToken();
     // listen to route changes
     this.router.events.subscribe(() => {
       console.log('route change');
-      // this.refreshToken();
+      this.refreshToken();
     });
   }
 
@@ -35,11 +35,15 @@ export class AuthService {
     email: string
   ): Observable<User | null> {
     return this.http
-      .post<{ accessToken: string }>(`${this.apiUrl}/register`, {
-        username,
-        password,
-        email,
-      })
+      .post<{ accessToken: string }>(
+        `${this.apiUrl}/register`,
+        {
+          username,
+          password,
+          email,
+        },
+        { withCredentials: true }
+      )
       .pipe(
         tap((token) => this.decodeToken(token.accessToken)),
         catchError((err) => {
@@ -51,10 +55,14 @@ export class AuthService {
 
   login(username: string, password: string): Observable<User | null> {
     return this.http
-      .post<{ accessToken: string }>(`${this.apiUrl}/login`, {
-        username,
-        password,
-      })
+      .post<{ accessToken: string }>(
+        `${this.apiUrl}/login`,
+        {
+          username,
+          password,
+        },
+        { withCredentials: true }
+      )
       .pipe(
         tap((token) => this.decodeToken(token.accessToken)),
         catchError((err) => {
@@ -65,10 +73,10 @@ export class AuthService {
   }
 
   logout(): void {
-    this.http
-      .post(`${this.apiUrl}/logout`, null, {
-        headers: { Authorization: `Bearer ${this.globals.accesToken}` },
-      });
+    this.http.post(`${this.apiUrl}/logout`, null, {
+      headers: { Authorization: `Bearer ${this.globals.accesToken}` },
+      withCredentials: true,
+    });
 
     this.cookieService.delete('accessToken');
     this.globals.accesToken = '';
@@ -78,7 +86,9 @@ export class AuthService {
   refreshToken(): void {
     console.log('refresh token');
     this.http
-      .post<{ accessToken: string }>(`${this.apiUrl}/refresh_token`, null)
+      .post<{ accessToken: string }>(`${this.apiUrl}/refresh_token`, null, {
+        withCredentials: true,
+      })
       .subscribe((token) => {
         console.log('refresh token', token);
       });
