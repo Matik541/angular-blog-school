@@ -1,27 +1,41 @@
+import { AppComponent } from 'src/app/app.component';
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GlobalsService } from 'src/app/globals.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-    
-    constructor(
-      private authService: AuthService
-    ) { 
+  hide: boolean = true;
+  loginForm: FormGroup;
 
-      this.login('test', 'test');
+  constructor(
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private appComponent: AppComponent,
+    private globals: GlobalsService
+  ) {
+    this.loginForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+    });
+  }
+
+  login() {
+    if (this.loginForm.invalid) {
+      console.log('Invalid form');
+      return;
     }
-    
-    login(username: string, password: string) {
-      this.authService.login(username, password).subscribe((res) => {
+
+    this.authService
+      .login(this.loginForm.value.username, this.loginForm.value.password)
+      .subscribe((res) => {
         console.log(res);
+        console.log(2, this.globals.user);
       });
-    }
-
-    showPassword() {  
-      
-    }
+  }
 }

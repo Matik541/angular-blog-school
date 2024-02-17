@@ -38,6 +38,4 @@ export class RegisterComponent {
         console.log(res);
       });
   }
-
-  showPassword() {}
 }

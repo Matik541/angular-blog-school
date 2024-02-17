@@ -1,12 +1,14 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark me-fill">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark md-3">
   <div class="container-fluid">
-    <a class="navbar-brand" href="javascript:void(0)">Logo</a>
-    <div class="gap-2 d-flex justify-content-end">
+    <a class="navbar-brand" routerLink="">
+      {{ globals.title }}
+    </a>
+    <div class="gap-2 d-flex justify-content-end" *ngIf="!globals.user?.username">
       <a
         name="nav-login"
         id="nav-login"
         class="btn btn-outline-secondary"
-        href="/login"
+        routerLink="/login"
         type="button"
       >
         Login
@@ -15,10 +17,24 @@
         name="nav-register"
         id="nav-register"
         class="btn btn-primary"
-        href="/register"
+        routerLink="/register"
         role="button"
         >Register
       </a>
+    </div>
+    <div class="gap-2 d-flex justify-content-end" *ngIf="!!globals.user?.username">
+      <button
+        name="nav-logout"
+        id="nav-logout"
+        class="btn btn-outline-secondary"
+        (click)="logout()"
+        type="button"
+      >
+        Logout
+      </button>
+      <span class="navbar-text">
+        {{ globals.user?.username }}
+      </span>
     </div>
   </div>
 </nav>

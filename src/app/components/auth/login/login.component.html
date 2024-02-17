@@ -1,40 +1,49 @@
-<div class="container">
+<form class="container" [formGroup]="loginForm" (ngSubmit)="login()">
   <div class="input-group mb-3">
     <span class="input-group-text">
-        <i class="bi bi-person"></i>
+      <i class="bi bi-person"></i>
     </span>
     <input
       type="text"
       class="form-control"
-      placeholder="Username"
+      placeholder="*Username"
       aria-label="Username"
+      formControlName="username"
+      required
     />
   </div>
-  
+
   <div class="input-group mb-3">
     <span class="input-group-text">
-        <i class="bi bi-key"></i>
+      <i class="bi bi-key"></i>
     </span>
     <input
+    [type]="hide ? 'password' : 'text'"
       class="form-control"
-      placeholder="Password"
+      placeholder="*Password"
       aria-label="Password"
+      formControlName="password"
+      required
     />
-    <button class="btn btn-outline-secondary" type="button" (click)="showPassword">
-        <i class="bi bi-eye"></i>
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      (click)="hide = !hide"
+    >
+      <i class="bi bi-eye"></i>
     </button>
   </div>
 
   <div class="d-grid gap-2">
     <button
-        type="email"
-        name="login"
-        id="login"
-        class="btn btn-primary"
-        (click)="login"
+      type="submit"
+      name="login"
+      id="login"
+      class="btn btn-primary"
+      (click)="(login)"
     >
-        Login
+      Login
     </button>
   </div>
-  
-</div>
+  <span>Do you need an account? <a routerLink="/register">Sign Up</a></span>
+</form>
