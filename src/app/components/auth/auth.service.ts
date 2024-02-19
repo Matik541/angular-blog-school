@@ -21,12 +21,11 @@ export class AuthService {
   ) {
     this.apiUrl = `${globals.baseUrl}/auth`;
 
-    // this.refreshToken();
-    // listen to route changes
-    this.router.events.subscribe(() => {
-      console.log('route change');
-      this.refreshToken();
-    });
+    this.refreshToken();
+    if (this.cookieService.check('accessToken')) {
+      this.globals.accesToken = this.cookieService.get('accessToken');
+      this.globals.user = jwtDecode(this.globals.accesToken);
+    }
   }
 
   register(
@@ -84,14 +83,11 @@ export class AuthService {
   }
 
   refreshToken(): void {
-    console.log('refresh token');
     this.http
       .post<{ accessToken: string }>(`${this.apiUrl}/refresh_token`, null, {
         withCredentials: true,
       })
-      .subscribe((token) => {
-        console.log('refresh token', token);
-      });
+      .subscribe((token) => this.decodeToken(token.accessToken));
   }
 
   private decodeToken(token: string): User {
