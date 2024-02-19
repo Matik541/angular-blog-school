@@ -21,6 +21,8 @@ export class AuthService {
   ) {
     this.apiUrl = `${globals.baseUrl}/auth`;
 
+    this.logout();
+
     this.refreshToken();
     if (this.cookieService.check('accessToken')) {
       this.globals.accesToken = this.cookieService.get('accessToken');
@@ -45,10 +47,7 @@ export class AuthService {
       )
       .pipe(
         tap((token) => this.decodeToken(token.accessToken)),
-        catchError((err) => {
-          console.log(err);
-          return of(null);
-        })
+        catchError((err) => of(null) )
       ) as Observable<User | null>;
   }
 
@@ -64,10 +63,7 @@ export class AuthService {
       )
       .pipe(
         tap((token) => this.decodeToken(token.accessToken)),
-        catchError((err) => {
-          console.log(err);
-          return of(null);
-        })
+        catchError(() => of(null))
       ) as Observable<User | null>;
   }
 
@@ -75,7 +71,8 @@ export class AuthService {
     this.http.post(`${this.apiUrl}/logout`, null, {
       headers: { Authorization: `Bearer ${this.globals.accesToken}` },
       withCredentials: true,
-    });
+    }).subscribe();
+    
 
     this.cookieService.delete('accessToken');
     this.globals.accesToken = '';
