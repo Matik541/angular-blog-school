@@ -1,8 +1,21 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark md-3">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="">
-      {{ globals.title }}
-    </a>
+  <div class="container-fluid px-5">
+    <div class="gap-4 d-flex">
+      <a class="navbar-brand" routerLink="">
+        {{ globals.title }}
+      </a>
+      <a
+          name="nav-add-post"
+          id="nav-add-post"
+          class="btn btn-primary"
+          routerLink="/create"
+          type="button"
+          *ngIf="!!globals.user?.username"
+        >
+          <i class="bi bi-plus"></i>
+          Add post
+        </a>
+    </div>
     <div class="gap-2 d-flex justify-content-end" *ngIf="!globals.user?.username">
       <a
         name="nav-login"

@@ -6,7 +6,7 @@ import { User } from './interfaces/user';
 })
 export class GlobalsService {
   title = 'Blog';
-  accesToken?: string;
+  accessToken?: string;
   user?: User;
   baseUrl = 'http://localhost:3000/api';
   

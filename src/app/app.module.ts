@@ -9,13 +9,19 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { HeaderComponent } from './components/header/header.component';
+import { HomeComponent } from './components/home/home.component';
+import { PostComponent } from './components/posts/post/post.component';
+import { CreateComponent } from './components/posts/create/create.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HeaderComponent
+    HeaderComponent,
+    HomeComponent,
+    PostComponent,
+    CreateComponent
   ],
   imports: [
     BrowserModule,

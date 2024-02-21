@@ -1,0 +1,38 @@
+<form class="container" [formGroup]="createForm" (ngSubmit)="createPost()">
+  <div class="mb-3">
+    <input
+      formControlName="title"
+      type="text"
+      class="form-control"
+      placeholder="*Title"
+      aria-label="Title"
+      required
+    />
+  </div>
+
+  <div class="mb-3">
+    <textarea
+      formControlName="text"
+      class="form-control"
+      name="create-content"
+      id="create-content"
+      rows="5"
+      placeholder="*Content"
+      required
+    ></textarea>
+  </div>
+
+  <div class="d-grid gap-2">
+    <button
+      type="submit"
+      name="login"
+      id="login"
+      class="btn btn-primary"
+      (click)="(createPost)"
+    >
+      <i class="bi bi-send"></i>
+      Post
+    </button>
+  </div>
+  <span>Do you need an account? <a routerLink="/register">Sign Up</a></span>
+</form>

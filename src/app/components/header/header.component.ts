@@ -12,13 +12,10 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   constructor(
     private authService: AuthService,
-    private router: Router,
     public globals: GlobalsService
   ) { }
 
   logout() {
-    this.authService.logout();
-    this.authService.logout();
     this.authService.logout();
   }
 }

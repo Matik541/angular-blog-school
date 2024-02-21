@@ -21,8 +21,8 @@ export class AuthService {
 
     this.refreshToken();
     if (this.cookieService.check('accessToken')) {
-      this.globals.accesToken = this.cookieService.get('accessToken');
-      this.globals.user = jwtDecode(this.globals.accesToken);
+      this.globals.accessToken = this.cookieService.get('accessToken');
+      this.globals.user = jwtDecode(this.globals.accessToken);
     }
   }
 
@@ -64,15 +64,19 @@ export class AuthService {
   }
 
   logout(): void {
+    this.refreshToken();
+
     this.cookieService.delete('accessToken');
     this.globals.user = undefined;
 
+    if (!this.globals.accessToken) return;
+    
     this.http.post(`${this.apiUrl}/logout`, null, {
-      headers: { Authorization: `Bearer ${this.globals.accesToken}` },
+      headers: { Authorization: `Bearer ${this.globals.accessToken}` },
       withCredentials: true,
     }).subscribe();
     
-    this.globals.accesToken = '';
+    this.globals.accessToken = '';
   }
 
   refreshToken(): void {
@@ -87,8 +91,12 @@ export class AuthService {
 
   private decodeToken(token: string): User {
     this.cookieService.set('accessToken', token, (1 / 24 / 60) * 5);
-    this.globals.accesToken = token;
-    this.globals.user = jwtDecode(token);
+    this.globals.accessToken = token;
+    let decoded: any = jwtDecode(token);
+    this.globals.user = {
+      id: decoded.sub,
+      username: decoded.username,
+    }
     return jwtDecode(token);
   }
 }
