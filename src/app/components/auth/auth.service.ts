@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, catchError, of, tap } from 'rxjs';
@@ -16,12 +15,9 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,
-    private router: Router,
     public globals: GlobalsService
   ) {
     this.apiUrl = `${globals.baseUrl}/auth`;
-
-    this.logout();
 
     this.refreshToken();
     if (this.cookieService.check('accessToken')) {
@@ -68,23 +64,25 @@ export class AuthService {
   }
 
   logout(): void {
+    this.cookieService.delete('accessToken');
+    this.globals.user = undefined;
+
     this.http.post(`${this.apiUrl}/logout`, null, {
       headers: { Authorization: `Bearer ${this.globals.accesToken}` },
       withCredentials: true,
     }).subscribe();
     
-
-    this.cookieService.delete('accessToken');
     this.globals.accesToken = '';
-    this.globals.user = {} as User;
   }
 
   refreshToken(): void {
     this.http
       .post<{ accessToken: string }>(`${this.apiUrl}/refresh_token`, null, {
         withCredentials: true,
-      })
-      .subscribe((token) => this.decodeToken(token.accessToken));
+      }).subscribe(
+        (token) => this.decodeToken(token.accessToken), 
+        (err) => console.log(err.statusText, err.error.message),
+      );
   }
 
   private decodeToken(token: string): User {
