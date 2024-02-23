@@ -1,1 +1,14 @@
-<p>post works!</p>
+<div class="container">
+  <h1 class="title">{{ post?.title }}</h1>
+  <div class="d-flex flex-row gap-3">
+    <small class="text-muted">
+      <i class="bi bi-clock"></i>
+      {{ post?.createdAt | date: 'dd MMM yyyy HH:mm:ss' }}
+    </small>
+    <small class="text-muted">
+      <i class="bi bi-person"></i>
+      {{ post?.author?.username }}
+    </small>
+  </div>
+  {{ post?.text }}
+</div>

@@ -94,7 +94,7 @@ export class AuthService {
     this.globals.accessToken = token;
     let decoded: any = jwtDecode(token);
     this.globals.user = {
-      id: decoded.sub,
+      _id: decoded.sub,
       username: decoded.username,
     }
     return jwtDecode(token);

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of, tap } from 'rxjs';
 import { GlobalsService } from 'src/app/globals.service';
 import { Post } from 'src/app/interfaces/post';
 
@@ -35,7 +35,10 @@ export class PostService {
         text,
       },
       { headers: { Authorization: `Bearer ${this.globals.accessToken}` } }
-    );
+    ).pipe(
+      tap((post) => post),
+      catchError((err) => of(null))
+    ) as Observable<Post | null>;
   }
 
   edit(id: string, title: string, text: string): Observable<Post> {
