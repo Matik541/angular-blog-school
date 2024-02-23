@@ -21,7 +21,7 @@ import { CreateComponent } from './components/posts/create/create.component';
     HeaderComponent,
     HomeComponent,
     PostComponent,
-    CreateComponent
+    CreateComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +31,7 @@ import { CreateComponent } from './components/posts/create/create.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
