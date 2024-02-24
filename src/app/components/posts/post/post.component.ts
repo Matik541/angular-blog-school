@@ -23,8 +23,6 @@ export class PostComponent {
       console.log(params['id']);
       this.postService.getPost(params['id']).subscribe((post) => {
         this.post = post;
-        
-        // post.text = post.text.replace(/(?:\r\n|\r|\n)/g, '<br>');
 
         this.isAuthor =
           this.postService.globals.user?._id === this.post?.author._id;
@@ -34,17 +32,8 @@ export class PostComponent {
 
   deletePost() {
     if (!this.post) return;
-    this.postService.delete(this.post._id).subscribe((post) => {
+    this.postService.delete(this.post._id).subscribe(() => {
       this.router.navigate(['/home']);
     });
-  }
-
-  editPost() {
-    if (!this.post) return;
-    this.postService
-      .edit(this.post._id, this.post.title, this.post.text)
-      .subscribe((post) => {
-        console.log(post);
-      });
   }
 }

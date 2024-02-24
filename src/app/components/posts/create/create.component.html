@@ -1,37 +1,41 @@
-<form class="container" [formGroup]="createForm" (ngSubmit)="createPost()">
-  <div class="mb-3">
-    <input
-      formControlName="title"
-      type="text"
-      class="form-control"
-      placeholder="*Title"
-      aria-label="Title"
-      required
-    />
-  </div>
+<div class="container">
+  <h2>{{ !asEdit ? "Create post" : "Edit post" }}</h2>
 
-  <div class="mb-3">
-    <textarea
-      formControlName="text"
-      class="form-control"
-      name="create-content"
-      id="create-content"
-      rows="5"
-      placeholder="*Content"
-      required
-    ></textarea>
-  </div>
+  <form [formGroup]="createForm" (ngSubmit)="createPost()">
+    <div class="mb-3">
+      <input
+        formControlName="title"
+        type="text"
+        class="form-control"
+        placeholder="*Title"
+        aria-label="Title"
+        required
+      />
+      <div class="text-muted">
+        Current title length: {{ createForm.get("title")?.value.length }} / 50
+      </div>
+    </div>
 
-  <div class="d-grid gap-2">
-    <button
-      type="submit"
-      name="create"
-      id="create"
-      class="btn btn-primary"
-      (click)="(createPost)"
-    >
-      <i class="bi bi-send"></i>
-      Post
-    </button>
-  </div>
-</form>
+    <div class="mb-3">
+      <textarea
+        formControlName="text"
+        class="form-control"
+        name="create-content"
+        id="create-content"
+        rows="15"
+        placeholder="*Content"
+        required
+      ></textarea>
+      <div class="text-muted">
+        Current post length: {{ createForm.get("text")?.value.length }} / 2000
+      </div>
+    </div>
+
+    <div class="d-grid gap-2">
+      <button type="submit" name="create" id="create" class="btn btn-primary">
+        <i class="bi bi-send"></i>
+        {{ !asEdit ? "Post" : "Update" }}
+      </button>
+    </div>
+  </form>
+</div>
