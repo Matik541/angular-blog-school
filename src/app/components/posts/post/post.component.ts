@@ -9,6 +9,7 @@ import { PostService } from '../post.service';
   styleUrls: ['./post.component.css'],
 })
 export class PostComponent {
+
   post: Post | undefined;
   isAuthor: boolean = false;
 
